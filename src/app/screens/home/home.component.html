@@ -1,0 +1,15 @@
+<div class="container">
+  <app-tab-group [tabs]="categories" (changeTab)="setCurrentTab($event)">
+    <div class="group" *ngIf="cars.length">
+      <app-card-car
+        *ngFor="let car of carByCategories[currentTab]"
+        [car]="car"
+        (selected)="showDetails($event)"
+      ></app-card-car>
+    </div>
+  </app-tab-group>
+</div>
+<app-details-car
+  [car]="currentCar"
+  (clearCar)="currentCar = emptyCar"
+></app-details-car>

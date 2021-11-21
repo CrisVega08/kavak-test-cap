@@ -1,0 +1,32 @@
+<div
+  *ngIf="showInfo"
+  [ngClass]="{
+    'container-detail': true,
+    grow: true
+  }"
+>
+  <div
+    appClickOutside
+    [ngClass]="{ content: true, show: true }"
+    (clickOutside)="close()"
+  >
+    <h3 class="content-title">{{ bkpCar?.info?.name }}</h3>
+    <div class="general-info">
+      <img
+        class="content-img"
+        [src]="bkpCar?.iconUrl"
+        [alt]="bkpCar?.info?.name"
+      />
+      <p class="content-info">
+        <span class="bold"> {{ bkpCar?.info?.basic }} </span>
+        <!-- estoy en <span class="bold">{{ bkpCar?.info?.project }}</span> -->
+      </p>
+    </div>
+    <p class="description">
+      <span class="bold">Descripción</span>
+      <br />
+      <br />
+      {{ bkpCar?.info?.description }}
+    </p>
+  </div>
+</div>

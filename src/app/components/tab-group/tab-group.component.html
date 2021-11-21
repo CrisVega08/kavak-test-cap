@@ -1,0 +1,8 @@
+
+<div class="container">
+  <ul class="tabs">
+    <li class="tab" *ngFor="let tab of tabs" (click)="setTab(tab)"> {{ tab }}</li>
+  </ul>
+  <div class="indicator" [ngStyle]="{'left.%': position}"></div>
+  <ng-content></ng-content>
+</div>

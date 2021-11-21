@@ -1,0 +1,15 @@
+.navbar-container {
+  align-items: center;
+  background-color: #0273e8;
+  color: white;
+  display: flex;
+  height: 50px;
+  padding: 0 40px;
+}
+
+.navbar-link {
+  color: white;
+  margin-right: 35px;
+  text-decoration: none;
+  transition: text-decoration 300ms ease-in;
+}
