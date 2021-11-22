@@ -5,14 +5,69 @@ import {
 } from '@angular/common/http/testing';
 import { CARS } from '../data/data';
 import { CarService } from './car.service';
+import { of } from 'rxjs';
 
-describe('CarService', () => {
+describe('With mock function', () => {
+  let service2: CarService;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [],
+    });
+
+    service2 = TestBed.inject(CarService);
+  });
+
+  it('return all cars', (done) => {
+    const spy = jest
+      .spyOn(service2, 'findAllCars')
+      .mockReturnValueOnce(of(CARS));
+    service2.findAllCars().subscribe((cars) => {
+      expect(cars).toEqual(CARS);
+      expect(spy).toHaveBeenCalledTimes(1);
+      done();
+    });
+  });
+});
+
+describe('CarService with function setup', () => {
+  function setup() {
+    let service: CarService;
+    let httpController: HttpTestingController;
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [],
+    });
+    service = TestBed.inject(CarService);
+    httpController = TestBed.inject(HttpTestingController);
+    return { service, httpController };
+  }
+
+  it('create', () => {
+    const { service } = setup();
+    expect(service).toBeTruthy();
+  });
+
+  it('return all cars', (done) => {
+    const { service, httpController } = setup();
+    service.findAllCars().subscribe((cars) => {
+      expect(cars).toEqual(CARS);
+      done();
+    });
+    const req = httpController.expectOne('api/cars');
+    expect(req.request.method).toEqual('GET');
+    req.flush(CARS);
+    httpController.verify();
+  });
+});
+
+describe('CarService Using HttpClientTestingModule', () => {
   let service: CarService;
   let controller: HttpTestingController;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [CarService],
+      providers: [],
     });
 
     service = TestBed.inject(CarService);
@@ -46,7 +101,7 @@ describe('CarService', () => {
 
   it('should update car', (done) => {
     const car = CARS[0];
-    car.info.name = 'Cristian Francisco Vega Herrera';
+    car.info.name = 'Mazda';
     service.saveCar(car.id, car).subscribe((updatedCar) => {
       expect(updatedCar).toEqual(car);
       done();

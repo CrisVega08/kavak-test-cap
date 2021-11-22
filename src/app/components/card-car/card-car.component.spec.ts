@@ -34,15 +34,16 @@ describe('CardCarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render properties correctly', () => {
+  it('should render properties correctly', (done) => {
     const component = new CardCarComponent();
     expect(component.car).toBeUndefined();
 
     const car: Car = { id: 42, category: 'sport', info: { name: 'Chevrolet' } };
     component.car = car;
-    component.selected
-      .pipe(first())
-      .subscribe((selectedCar: Car) => expect(selectedCar).toBe(car));
+    component.selected.pipe(first()).subscribe((selectedCar: Car) => {
+      expect(selectedCar).toBe(car);
+      done();
+    });
 
     component.click();
   });
